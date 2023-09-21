@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.boardpractice.mapper.BoardMapper">
+
+
+    <select id="selectAll" resultType="boardDto">
+
+
+
+
+<!--        select rnum, board_number, board_title, board_content, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE, board_count-->
+<!--        from (select rnum, board_number, board_title, board_content, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE, board_count-->
+<!--        from(-->
+<!--        select ROWNUM as rnum, board_number, board_title, board_content, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE, board_count-->
+<!--        from boards-->
+<!--        <![CDATA[-->
+<!--        where rownum<=#{page} * #{amount} ]]>-->
+<!--        order by BOARD_NUMBER desc-->
+<!--        )-->
+<!--        where rnum> (#{page}-1)*#{amount}-->
+<!--        )-->
+<!--        <if test="'noticeTitle'.equals(noticeSearch)">-->
+<!--        where board_title like '%' || #{noticeSearchByTitleAndContent} || '%'-->
+<!--        </if>-->
+<!--        <if test="'noticeTitle'.equals(noticeSearch)">-->
+<!--        where board_content like '%' || #{noticeSearchByTitleAndContent} || '%'-->
+<!--        </if>-->
+
+
+        select rnum, board_number, board_title, board_content, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE, board_count
+        from(
+        select ROWNUM as rnum, board_number, board_title, board_content, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE, board_count
+        from boards
+        <![CDATA[
+        where rownum<=#{page} * #{amount}
+                    ]]>
+            order by BOARD_NUMBER desc
+            )
+        where rnum>(#{page}-1)*#{amount}
+
+
+    </select>
+
+
+    <select id="selectOne" resultType="boardVo">
+
+
+        select board_title, board_content, board_register_date, board_update_date, board_count
+        from boards
+        where board_number = #{boardNumber}
+
+    </select>
+
+    <select id="getTotal" resultType="_int">
+
+        select count(board_number)
+        from boards
+
+    </select>
+
+</mapper>
