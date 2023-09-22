@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class SearchVo {
 
-    private String noticeSearch;
-    private String noticeSearchByTitleAndContent;
+    private String cate;
+    private String keyword;
 
 }
