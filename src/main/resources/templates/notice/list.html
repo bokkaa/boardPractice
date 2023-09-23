@@ -103,16 +103,14 @@
                 <h3>공지사항</h3>
             </div>
             <div class="Notice-search">
-                <form action="" method="">
                     <select name="cate" class="cate">
                         <option value="noticeTitle">제목</option>
                         <option value="noticeContent">내용</option>
                     </select>
                     <input type="text" class="keyword" name="keyword">
-                    <button class="notice-search-btn">
+                    <button class="notice-search-btn" type="button">
                         검색
                     </button>
-                </form>
             </div>
         </div>
         <div class="notice-section">
@@ -147,7 +145,7 @@
     //page 변수를 처음부터 1로 초기화
     //첫화면부터 1페이지로 보이게끔 ㅇㅇ
     $(document).ready(function () {
-        loadPage(1);
+        loadPage(1,getSearchVo());
 
     });
 
@@ -155,38 +153,34 @@
     $(document).on('click', '.page-num a', function (e) {
         e.preventDefault();
         const page = $(this).data('num');
-        loadPage(page);
-
+        loadPage(page, getSearchVo());
     });
 
+    $('.notice-search-btn').on('click', function (){
+        loadPage(1,getSearchVo());
+    })
+
+    function getSearchVo(){
+        let cate = $('.cate').val();
+        let keyword = $('.keyword').val();
+
+        return {
+            cate : cate,
+            keyword : keyword
+        };
+    }
 
 
-    function loadPage(page) {
+    function loadPage(page, searchVo) {
         $.ajax({
             url: `/notices/list/${page}`,
             type: 'get',
+            data : searchVo,
             dataType: 'json',
             success: function (result) {
                 console.log(result.pageVo);
                 console.log(result.boardList);
                 noticeList(result);
-
-
-
-               // $('.page-num a').each(function (){
-               //     let ii = $('.page-num a').text();
-               //     for(let count =0;count<page;count++){
-               //         if(ii[count]==page){
-               //             console.log(page);
-               //             console.log(ii[count]);
-               //              console.log(this)
-               //             $(this).css('background-color', 'red');
-               //
-               //         }
-               //     }
-               // })
-
-
 
 
             },
@@ -202,11 +196,12 @@
         let text = '';
 
         result.boardList.forEach(r => {
+
             text += `
                 <tr>
                     <td>${r.boardNumber}</td>
                     <td><a href="/notice/detail?boardNumber=${r.boardNumber}"><strong>${r.boardTitle}</strong></a></td>
-                    <td>${r.boardContent}</td>
+                    <td>관리자</td>
                     <td>${r.boardRegisterDate}</td>
                     <td>${r.boardCount}</td>
                 </tr>

@@ -2,6 +2,8 @@ package com.example.boardpractice.mapper;
 
 import com.example.boardpractice.domain.dto.BoardDto;
 import com.example.boardpractice.domain.vo.BoardVo;
+import com.example.boardpractice.domain.vo.Criteria;
+import com.example.boardpractice.domain.vo.SearchVo;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,5 +56,17 @@ class BoardMapperTest {
         log.info(boardVoList.toString());
 
         Assertions.assertThat(boardVoList.getBoardCount()).isEqualTo(boardDto.getBoardCount());
+    }
+
+    @Test
+    void searchResult() {
+
+        List<BoardDto> boardDtoList= boardMapper.searchResult(
+                new Criteria(), new SearchVo());
+
+        log.info(boardDtoList.toString()+"==========================");
+
+        Assertions.assertThat(boardDtoList).isNotNull();
+
     }
 }

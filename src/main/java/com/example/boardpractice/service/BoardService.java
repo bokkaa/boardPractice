@@ -4,6 +4,7 @@ package com.example.boardpractice.service;
 import com.example.boardpractice.domain.dto.BoardDto;
 import com.example.boardpractice.domain.vo.BoardVo;
 import com.example.boardpractice.domain.vo.Criteria;
+import com.example.boardpractice.domain.vo.SearchVo;
 import com.example.boardpractice.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,13 @@ public class BoardService {
 
     public int getTotal(){
         return boardMapper.getTotal();
+    }
+
+    public int getTotal2(SearchVo searchVo){
+        return boardMapper.getTotal2(searchVo);
+    }
+
+    public List<BoardDto> searchResult(Criteria criteria, SearchVo searchVo){
+        return boardMapper.searchResult(criteria, searchVo);
     }
 }

@@ -61,16 +61,16 @@
         select ROWNUM as rnum, board_number, board_title, board_content, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE, board_count
         from boards
         <![CDATA[
-        where rownum<=#{page} * #{amount} ]]>
+        where rownum<=#{criteria.page} * #{criteria.amount} ]]>
         order by BOARD_NUMBER desc
         )
-        where rnum> (#{page}-1)*#{amount}
+        where rnum> (#{criteria.page}-1)*#{criteria.amount}
         )
-        <if test="'noticeTitle'.equals(cate)">
-            where board_title like '%' || #{keyword} || '%'
+        <if test="'noticeTitle'.equals(searchVo.cate)">
+            where board_title like '%' || #{searchVo.keyword} || '%'
         </if>
-        <if test="'noticeContent'.equals(cate)">
-            where board_content like '%' || #{keyword} || '%'
+        <if test="'noticeContent'.equals(searchVo.cate)">
+            where board_content like '%' || #{searchVo.keyword} || '%'
         </if>
 
     </select>

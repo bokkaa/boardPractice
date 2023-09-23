@@ -4,6 +4,7 @@ package com.example.boardpractice.controller;
 import com.example.boardpractice.domain.dto.BoardDto;
 import com.example.boardpractice.domain.vo.Criteria;
 import com.example.boardpractice.domain.vo.PageVo;
+import com.example.boardpractice.domain.vo.SearchVo;
 import com.example.boardpractice.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
@@ -25,11 +26,11 @@ public class BoardRestController {
 
 
     @GetMapping("/list/{page}")
-    public Map<String, Object> findAll(Criteria criteria)
-                                 {
-
-        PageVo pageVo = new PageVo(boardService.getTotal(), criteria);
-        List<BoardDto> boardDtoList = boardService.selectAll(criteria);
+    public Map<String, Object> findAll(@PathVariable("page")int page, SearchVo searchVo) {
+        Criteria criteria = new Criteria();
+        criteria.setPage(page);
+        PageVo pageVo = new PageVo(boardService.getTotal2(searchVo), criteria);
+        List<BoardDto> boardDtoList = boardService.searchResult(criteria, searchVo);
 
         Map<String, Object> boardMap = new HashMap<>();
         boardMap.put("pageVo", pageVo);
@@ -38,8 +39,6 @@ public class BoardRestController {
 
         return boardMap;
     }
-
-
 
 
 }
